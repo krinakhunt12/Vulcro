@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useState, useRef } from 'react';
 
 const ToastContext = createContext(null);
 
@@ -11,8 +11,10 @@ export function useToast() {
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
 
+  const idRef = useRef(0);
+
   const push = useCallback((toast) => {
-    const id = Math.random().toString(36).slice(2, 9);
+    const id = `toast_${++idRef.current}`;
     setToasts((t) => [...t, { id, ...toast }]);
     // auto remove
     if (!toast.duration || toast.duration > 0) {

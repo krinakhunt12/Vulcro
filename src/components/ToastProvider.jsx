@@ -1,14 +1,16 @@
 'use client';
 
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState, useRef } from 'react';
 
 const ToastContext = createContext(null);
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
 
+  const idRef = useRef(0);
+
   const push = ({ type = 'info', title, description, timeout = 3500 }) => {
-    const id = Date.now() + Math.random().toString(36).slice(2, 9);
+    const id = `toast_${++idRef.current}`;
     setToasts((t) => [...t, { id, type, title, description }]);
 
     if (timeout > 0) {
