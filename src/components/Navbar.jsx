@@ -20,13 +20,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full navbar sticky top-0 z-50 bg-white">
-      <div className="container flex items-center justify-between py-4">
+    <nav className="w-full navbar sticky top-0 z-50">
+      <div className="container flex items-center justify-between py-5">
         <div className="flex items-center gap-6">
           <Link href="/" className="text-xl brand font-bold">VULCRO</Link>
         </div>
 
-        <div className="hidden md:flex items-center gap-6 text-sm">
+        <div className="hidden md:flex items-center gap-8 text-sm">
           <Link href="/" className="hover:underline">Home</Link>
           <Link href="/shop" className="hover:underline">Shop</Link>
           <Link href="/collections" className="hover:underline">Collections</Link>
@@ -36,8 +36,8 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {!isAuthenticated ? (
             <>
-              <Link href="/login" className="text-sm px-3 py-2">Login</Link>
-              <Link href="/signup" className="text-sm px-3 py-2 border rounded">Signup</Link>
+              <Link href="/login" className="btn btn-ghost">Login</Link>
+              <Link href="/signup" className="btn btn-primary">Signup</Link>
             </>
           ) : (
             <div className="flex items-center gap-3">
@@ -46,7 +46,7 @@ export default function Navbar() {
             </div>
           )}
 
-          <Link href="/wishlist" aria-label="Wishlist" className="p-2 rounded-md hover:bg-[rgba(0,0,0,0.03)] relative">
+          <Link href="/wishlist" aria-label="Wishlist" className="p-2 rounded-md hover:bg-[rgba(255,255,255,0.02)] relative">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-black">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 10-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z" />
             </svg>

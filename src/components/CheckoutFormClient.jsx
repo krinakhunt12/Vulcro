@@ -9,10 +9,9 @@ export default function CheckoutFormClient() {
     e.preventDefault();
     setSubmitting(true);
     const fd = new FormData(e.target);
-    // Placeholder: send order to server or payment integration
+    // placeholder: send fd to API
     console.log('Checkout form submitted', Object.fromEntries(fd.entries()));
-    // simulate network
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 700));
     setSubmitting(false);
     alert('Checkout submitted (demo)');
   };
@@ -24,18 +23,18 @@ export default function CheckoutFormClient() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <label className="block">
-            <div className="text-sm text-gray-700 mb-1">Full name</div>
-            <input name="name" type="text" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">Full name</div>
+            <input name="name" type="text" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label className="block">
-            <div className="text-sm text-gray-700 mb-1">Mobile number</div>
-            <input name="phone" type="tel" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">Mobile number</div>
+            <input name="phone" type="tel" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label className="block sm:col-span-2">
-            <div className="text-sm text-gray-700 mb-1">Email</div>
-            <input name="email" type="email" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">Email</div>
+            <input name="email" type="email" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
         </div>
       </div>
@@ -45,33 +44,33 @@ export default function CheckoutFormClient() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <label>
-            <div className="text-sm text-gray-700 mb-1">House / Flat no.</div>
-            <input name="house" type="text" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">House / Flat no.</div>
+            <input name="house" type="text" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label>
-            <div className="text-sm text-gray-700 mb-1">Street / Locality</div>
-            <input name="street" type="text" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">Street / Locality</div>
+            <input name="street" type="text" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label>
-            <div className="text-sm text-gray-700 mb-1">Area / Landmark</div>
-            <input name="area" type="text" className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">Area / Landmark</div>
+            <input name="area" type="text" className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label>
-            <div className="text-sm text-gray-700 mb-1">City</div>
-            <input name="city" type="text" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">City</div>
+            <input name="city" type="text" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label>
-            <div className="text-sm text-gray-700 mb-1">State</div>
-            <input name="state" type="text" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">State</div>
+            <input name="state" type="text" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
 
           <label>
-            <div className="text-sm text-gray-700 mb-1">Pincode</div>
-            <input name="pincode" type="text" required className="w-full border border-gray-100 rounded-md px-3 py-2" />
+            <div className="text-sm text-[--muted] mb-1">Pincode</div>
+            <input name="pincode" type="text" required className="w-full border border-[--divider] rounded-md px-3 py-2 bg-transparent text-[--foreground]" />
           </label>
         </div>
       </div>
@@ -80,7 +79,7 @@ export default function CheckoutFormClient() {
         <h2 className="text-lg font-medium mb-4">Payment</h2>
 
         <div className="flex flex-col gap-4">
-          <button type="button" className="w-full btn-primary px-4 py-3" aria-label="Pay with Razorpay">Pay with Razorpay</button>
+          <button type="button" className="w-full btn btn-primary px-4 py-3" aria-label="Pay with Razorpay">Pay with Razorpay</button>
 
           <label className="flex items-center gap-3">
             <input type="radio" name="payment" defaultChecked />
@@ -90,7 +89,7 @@ export default function CheckoutFormClient() {
       </div>
 
       <div className="flex justify-end">
-        <button type="submit" disabled={submitting} className="btn-primary px-6 py-3 shadow-md">
+        <button type="submit" disabled={submitting} className="btn btn-primary px-6 py-3 shadow-md">
           {submitting ? 'Submitting...' : 'Proceed to Payment'}
         </button>
       </div>

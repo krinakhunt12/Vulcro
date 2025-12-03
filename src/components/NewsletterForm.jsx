@@ -21,12 +21,12 @@ export default function NewsletterForm() {
         id="newsletter-email"
         type="email"
         placeholder="you@domain.com"
-        className="border border-gray-100 px-4 py-2 rounded-md"
+        className="border border-[--divider] px-4 py-2 rounded-md bg-transparent text-[--foreground]"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <button className="btn-primary px-4 py-2 rounded-md" type="submit">Subscribe</button>
+      <button className="btn btn-primary px-4 py-2 rounded-md" type="submit">Subscribe</button>
 
       {status && (
         <div className="ml-3 text-sm text-green-600">{status}</div>

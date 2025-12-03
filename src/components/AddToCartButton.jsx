@@ -25,7 +25,7 @@ export default function AddToCartButton({ product, className }) {
   };
 
   return (
-    <button onClick={handle} className={className || 'btn-primary px-6 py-3'}>
+    <button onClick={handle} className={className || 'btn btn-primary px-6 py-3'}>
       Add to Cart
     </button>
   );

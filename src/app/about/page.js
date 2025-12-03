@@ -18,7 +18,7 @@ export default function AboutPage() {
       >
         <div className="container mx-auto px-6 py-20 grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <p className="text-sm text-gray-600 mb-2">Our Atelier — Surat</p>
+            <p className="text-sm text-[--muted] mb-2">Our Atelier — Surat</p>
 
             <h1
               id="about-hero-heading"
@@ -27,7 +27,7 @@ export default function AboutPage() {
               Designed with Tradition. Crafted with Love.
             </h1>
 
-            <p className="mt-4 text-gray-700 max-w-xl">
+            <p className="mt-4 text-[--muted] max-w-xl">
               VULCRO blends time-honoured Surat craft with considered
               contemporary design. Each kurti pair is hand-checked, tailored
               locally, and finished to feel both familiar and exceptional.
@@ -35,13 +35,13 @@ export default function AboutPage() {
 
             <div className="mt-6 flex gap-3">
               <Link href="/shop" className="inline-block">
-                <button className="btn-primary px-5 py-3 rounded-md">
+                <button className="btn btn-primary px-5 py-3 rounded-md">
                   Shop Collection
                 </button>
               </Link>
 
               <Link href="/contact" className="inline-block">
-                <button className="btn-outline px-4 py-3 rounded-md">
+                <button className="btn btn-outline px-4 py-3 rounded-md">
                   Visit Our Workshop
                 </button>
               </Link>
@@ -110,10 +110,10 @@ export default function AboutPage() {
             <ul className="mt-4 space-y-3">
               <li className="flex items-start gap-3">
                 {/* icon placeholder (use inline SVG or <img>) */}
-                <span className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center text-sm">🧵</span>
+                <span className="w-7 h-7 bg-[--surface] rounded-full flex items-center justify-center text-sm">🧵</span>
                 <div>
                   <div className="font-medium">Natural & premium fabrics</div>
-                  <div className="text-sm text-gray-600">
+                    <div className="text-sm text-[--muted]">
                     We source cotton, silk-blends and breathable linens selected
                     for drape and comfort.
                   </div>
@@ -121,10 +121,10 @@ export default function AboutPage() {
               </li>
 
               <li className="flex items-start gap-3">
-                <span className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center">✂️</span>
+                <span className="w-7 h-7 bg-[--surface] rounded-full flex items-center justify-center">✂️</span>
                 <div>
                   <div className="font-medium">Handwork & detailing</div>
-                  <div className="text-sm text-gray-600">
+                    <div className="text-sm text-[--muted]">
                     Embroidery and mirror work are done by trained artisans,
                     one motif at a time.
                   </div>
@@ -132,10 +132,10 @@ export default function AboutPage() {
               </li>
 
               <li className="flex items-start gap-3">
-                <span className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center">🔍</span>
+                <span className="w-7 h-7 bg-[--surface] rounded-full flex items-center justify-center">🔍</span>
                 <div>
                   <div className="font-medium">Quality checks</div>
-                  <div className="text-sm text-gray-600">
+                    <div className="text-sm text-[--muted]">
                     Every garment is inspected at multiple stages to ensure fit
                     and finish.
                   </div>
@@ -143,10 +143,10 @@ export default function AboutPage() {
               </li>
 
               <li className="flex items-start gap-3">
-                <span className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center">🏘️</span>
+                <span className="w-7 h-7 bg-[--surface] rounded-full flex items-center justify-center">🏘️</span>
                 <div>
                   <div className="font-medium">Local craftspeople</div>
-                  <div className="text-sm text-gray-600">
+                    <div className="text-sm text-[--muted]">
                     Production supports Surat’s artisan community and small
                     ateliers.
                   </div>
@@ -302,7 +302,7 @@ export default function AboutPage() {
 
                 <div className="mt-4">
                   <Link href="/book-visit">
-                    <button className="btn-outline px-4 py-2 rounded-md">Book a Visit</button>
+                    <button className="btn btn-outline px-4 py-2 rounded-md">Book a Visit</button>
                   </Link>
                 </div>
               </div>
@@ -310,7 +310,7 @@ export default function AboutPage() {
 
             <div>
               {/* Map placeholder: replace with real embed / iframe */}
-              <div className="w-full h-48 bg-gray-100 rounded-md flex items-center justify-center text-sm text-gray-500">
+              <div className="w-full h-48 bg-[--surface] rounded-md flex items-center justify-center text-sm text-[--muted]">
                 Map embed placeholder (replace with Google Maps iframe)
               </div>
             </div>

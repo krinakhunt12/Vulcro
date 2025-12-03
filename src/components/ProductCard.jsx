@@ -17,9 +17,9 @@ export default function ProductCard({ product, tag, priority = false }) {
 
   return (
     <a href={`/product/${id}`} className="card p-4 block">
-      <div className="relative product-image h-64 w-full overflow-hidden rounded-lg bg-gray-100">
+      <div className="relative product-image h-64 w-full overflow-hidden rounded-lg bg-[--surface]">
         {badge ? (
-          <span className="absolute top-3 left-3 bg-black text-white text-xs px-3 py-1 rounded-full z-10">
+          <span className="absolute top-3 left-3 bg-[--primary] text-white text-xs px-3 py-1 rounded-full z-10">
             {badge}
           </span>
         ) : null}
@@ -38,12 +38,12 @@ export default function ProductCard({ product, tag, priority = false }) {
 
       <h2 className="mt-3 text-lg font-semibold">{title}</h2>
 
-      <p className="text-sm text-gray-600 mt-2 line-clamp-2">{product.description}</p>
+      <p className="text-sm text-[--muted] mt-2 line-clamp-2">{product.description}</p>
 
       <div className="mt-4 flex items-center justify-between">
         <div className="price-badge text-lg">₹{product.price}</div>
         <div>
-          <button className="btn-outline">View</button>
+          <button className="btn btn-outline">View</button>
         </div>
       </div>
     </a>
