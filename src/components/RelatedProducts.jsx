@@ -6,7 +6,7 @@ export default function RelatedProducts({ items = [] }) {
 
   return (
     <section className="py-12">
-      <div className="container">
+      <div className="max-w-7xl mx-auto w-full">
         <h3 className="text-xl font-bold mb-6">You may also like</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {products.map((p) => (

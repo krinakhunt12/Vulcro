@@ -64,7 +64,7 @@ export default function NewArrivals({ count = 6 }) {
 
   return (
     <section className="py-20 bg-white">
-      <div className="container px-6">
+      <div className="max-w-7xl mx-auto w-full">
         <div className="flex items-center justify-between mb-12">
           <div>
             <h2 className="text-4xl font-bold text-black mb-2">New Arrivals</h2>

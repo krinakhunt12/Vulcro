@@ -1,7 +1,7 @@
 export default function CollectionBanner({ title, subtitle, image, align = 'right' }) {
   return (
     <section className="py-16">
-      <div className="container grid items-center gap-8 md:grid-cols-2">
+      <div className="max-w-7xl mx-auto grid items-center gap-8 md:grid-cols-2">
         <div className={`space-y-4 ${align === 'left' ? 'order-2 md:order-1' : ''}`}>
           <div className="text-sm text-gray-600">Collection</div>
           <h1 className="text-3xl md:text-4xl font-bold">{title}</h1>

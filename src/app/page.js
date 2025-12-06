@@ -3,7 +3,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import LazySection from '@/components/LazySection';
 import products from '@/data/products';
-
+import Hero from '@/components/Hero';
 /**
  * Lazy-loaded components using next/dynamic
  * These components are loaded only when needed, reducing initial bundle size
@@ -83,43 +83,10 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=2000&q=80"
-            alt="VULCRO Hero - Traditional Kurti"
-            fill
-            className="object-cover opacity-20 animate-slow-zoom"
-            priority // Hero image should load immediately for LCP
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/60"></div>
-        </div>
-        
-        <div className="container relative z-10 px-6">
-          <div className="max-w-2xl">
-            <p className="text-sm tracking-widest text-gray-700 mb-4 uppercase font-medium animate-fade-in-up" style={{animationDelay: '0.2s'}}>Surat's Finest</p>
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 text-black animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              Traditional Kurtis
-            </h1>
-            <p className="text-xl text-gray-800 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-              Handpicked styles crafted with elegance and comfort. Experience the heritage of Surat craftsmanship.
-            </p>
-            <div className="flex gap-4 flex-wrap animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-              <Link href="/shop" className="inline-block px-8 py-4 bg-white text-gray-800 font-semibold rounded-md hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-lg">
-                Shop Now
-              </Link>
-              <Link href="/collections" className="inline-block px-8 py-4 text-black font-semibold rounded-md hover:bg-gray-200 hover:text-gray-800 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-lg">
-                View Collections
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
+    <Hero/>
       {/* Featured Collections */}
       <section className="py-20 bg-white">
-        <div className="container px-6">
+        <div className="max-w-7xl mx-auto w-full">
           <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-4xl font-bold text-black mb-4">Curated Collections</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -168,7 +135,7 @@ export default function Home() {
 
       {/* Brand Story */}
       <section className="py-20 bg-gray-50">
-        <div className="container px-6">
+        <div className="max-w-7xl mx-auto w-full">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="animate-fade-in-up">
@@ -224,7 +191,7 @@ export default function Home() {
 
       {/* Customer Testimonials */}
       <section className="py-20 bg-white">
-        <div className="container px-6">
+        <div className="max-w-7xl mx-auto w-full">
           <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-4xl font-bold text-black mb-4">What Our Customers Say</h2>
             <p className="text-gray-600">Real experiences from real women</p>

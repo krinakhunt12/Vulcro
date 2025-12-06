@@ -135,7 +135,7 @@ export default function CheckoutClient() {
                 <button
                   onClick={handlePlaceOrder}
                   disabled={placing}
-                  className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-3 rounded-lg shadow-md hover:opacity-95 disabled:opacity-60"
+                  className="w-full btn btn-primary p-3 rounded-lg shadow-md disabled:opacity-60"
                 >
                   {placing ? 'Placing order...' : 'Place Order'}
                 </button>
