@@ -189,6 +189,11 @@ h1,h2,h3,h4 {
 
 a { color: inherit; text-decoration: none; }
 
+/* Ensure interactive elements show pointer cursor */
+a[href], a[role="button"], button, input[type="button"], input[type="submit"], input[type="reset"], [role="button"], .btn {
+  cursor: pointer;
+}
+
 /* Custom Animations */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
 

@@ -6,9 +6,9 @@ export const metadata = {
 import Link from 'next/link';
 import CheckoutFormClient from '@/components/CheckoutFormClient';
 
-import CheckoutClient from '@/components/checkout/CheckoutClient';
+import CheckoutClientWrapper from '@/components/checkout/CheckoutClientWrapper';
 
 export default function CheckoutPage() {
-  // Render client checkout wrapper that reads Redux state in real-time
-  return <CheckoutClient />;
+  // Render client-only wrapper which mounts on the client to avoid hydration mismatches.
+  return <CheckoutClientWrapper />;
 }

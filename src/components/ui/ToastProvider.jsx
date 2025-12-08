@@ -31,7 +31,7 @@ export function ToastProvider({ children }) {
       {children}
 
       {/* Toast container */}
-      <div aria-live="polite" className="pointer-events-none fixed inset-0 flex items-end px-6 py-6 sm:items-start sm:justify-end sm:py-8">
+      <div aria-live="polite" style={{ zIndex: 99999 }} className="pointer-events-none fixed inset-0 flex items-end px-6 py-6 sm:items-start sm:justify-end sm:py-8">
         <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
           {toasts.map((t) => (
             <div key={t.id} className={`pointer-events-auto max-w-sm w-full bg-white border border-gray-100 shadow-md rounded-md p-3 ${t.variant === 'destructive' ? 'ring-1 ring-red-200' : ''}`}>

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
+import Admin from '@/models/Admin';
 
 export async function verifyTokenFromHeader(req) {
   try {
@@ -13,9 +14,18 @@ export async function verifyTokenFromHeader(req) {
     if (!JWT_SECRET) return { ok: false, message: 'JWT_SECRET not configured' };
 
     const decoded = jwt.verify(token, JWT_SECRET);
+    
+    await dbConnect();
+    
+    // Check if this is an admin token (has adminId) or user token (has userId)
+    if (decoded?.adminId) {
+      const admin = await Admin.findById(decoded.adminId).lean();
+      if (!admin) return { ok: false, message: 'Admin not found' };
+      return { ok: true, user: { id: admin._id, email: admin.email, name: admin.name, isAdmin: true } };
+    }
+    
     if (!decoded?.userId) return { ok: false, message: 'Invalid token payload' };
 
-    await dbConnect();
     const user = await User.findById(decoded.userId).lean();
     if (!user) return { ok: false, message: 'User not found' };
 

@@ -1,12 +1,5 @@
 import mongoose from 'mongoose';
 
-// Expect a MONGODB_URI environment variable to be set (e.g. in .env.local)
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
-}
-
 /**
  * Mongoose connection helper with caching to avoid multiple connections in dev.
  * Usage: await dbConnect();
@@ -18,6 +11,11 @@ if (!cached) {
 }
 
 async function dbConnect() {
+  const MONGODB_URI = process.env.MONGODB_URI;
+  if (!MONGODB_URI) {
+    throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+  }
+
   if (cached.conn) {
     return cached.conn;
   }

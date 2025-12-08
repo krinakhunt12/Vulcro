@@ -1,11 +1,19 @@
 'use client';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAdminStore } from '@/store/adminStore';
 
 const AdminHeader = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout, admin, role } = useAdminStore();
 
   // hide admin header on login and signup pages so they can occupy full viewport
   if (pathname === '/admin/login' || pathname === '/admin/signup') return null;
+
+  const handleLogout = () => {
+    logout();
+    router.push('/admin/login');
+  };
 
   return (
     <header className="fixed top-0 right-0 left-64 h-20 bg-white border-b border-gray-200 shadow-sm z-50">
@@ -56,13 +64,14 @@ const AdminHeader = () => {
 
           {/* Admin Profile */}
           <div className="flex items-center gap-3 pl-6 border-l border-gray-200">
-            <div className="text-right">
-              <p className="text-sm font-medium text-gray-800">Admin</p>
-              <p className="text-xs text-gray-500">Administrator</p>
+            <div className="text-right mr-4">
+              <p className="text-sm font-medium text-gray-800">{admin?.name || admin?.email || 'Admin'}</p>
+              <p className="text-xs text-gray-500">{role || 'Administrator'}</p>
             </div>
             <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white font-semibold shadow-md">
-              A
+              {admin?.name ? admin.name.charAt(0).toUpperCase() : 'A'}
             </div>
+            <button onClick={handleLogout} className="ml-4 px-3 py-2 rounded bg-red-50 text-red-600 text-sm border border-red-100">Logout</button>
           </div>
         </div>
       </div>

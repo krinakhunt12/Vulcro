@@ -3,20 +3,25 @@ import { useEffect, useState } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
 import { useToast } from '@/components/ui/ToastProvider';
+import { useAdminStore } from '@/store/adminStore';
+import dynamic from 'next/dynamic';
+const OrderDetailsModal = dynamic(() => import('@/components/admin/OrderDetailsModal'), { ssr: false });
 
 export default function OrdersPage() {
   const toast = useToast();
+  const { token } = useAdminStore();
+  const { role } = useAdminStore();
   const [orders, setOrders] = useState([]);
   const [analytics, setAnalytics] = useState({ totalOrders: 0, totalRevenue: 0, cod: 0, online: 0 });
   const [loading, setLoading] = useState(false);
   const [range, setRange] = useState('');
   const [status, setStatus] = useState('');
   const [query, setQuery] = useState('');
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   async function loadOrders() {
     try {
       setLoading(true);
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       const params = new URLSearchParams();
       if (range) params.set('range', range);
       if (status) params.set('status', status);
@@ -41,12 +46,15 @@ export default function OrdersPage() {
 
   const handleStatusUpdate = async (orderId, value) => {
     try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-      const res = await fetch(`/api/orders/${orderId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify({ orderStatus: value }) });
+      // Use dedicated status endpoint for clarity
+      console.log('Admin: updating status', orderId, value);
+      const res = await fetch(`/api/orders/${orderId}/status`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify({ orderStatus: value }) });
       const json = await res.json();
       if (json.success) {
         toast?.push({ title: 'Updated', description: 'Order status updated' });
-        loadOrders();
+        // update local UI without full refresh
+        setOrders((prev) => prev.map((o) => (String(o._id) === String(orderId) ? json.data : o)));
+        if (selectedOrder && String(selectedOrder._id) === String(orderId)) setSelectedOrder(json.data);
       } else {
         toast?.push({ title: 'Error', description: json.message || 'Unable to update' });
       }
@@ -59,7 +67,6 @@ export default function OrdersPage() {
   const handleDelete = async (orderId) => {
     if (!confirm('Soft-delete this order?')) return;
     try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       const res = await fetch(`/api/orders/${orderId}`, { method: 'DELETE', headers: token ? { Authorization: `Bearer ${token}` } : {} });
       const json = await res.json();
       if (json.success) {
@@ -83,6 +90,18 @@ export default function OrdersPage() {
     };
     return colors[status] || colors.Placed;
   };
+
+  if (role !== 'admin') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center p-8 bg-white rounded shadow">
+          <h2 className="text-xl font-semibold mb-2">Access restricted</h2>
+          <p className="text-sm text-gray-600 mb-4">You must be an admin to view orders. Please login with an admin account.</p>
+          <a href="/admin/login" className="px-4 py-2 bg-indigo-600 text-white rounded">Go to Admin Login</a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -193,7 +212,7 @@ export default function OrdersPage() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <button onClick={() => window.open(`/admin/orders/${order._id}`, '_blank')} className="px-2 py-1 text-sm bg-gray-50 border border-gray-200 rounded">View</button>
+                          <button onClick={() => { console.log('Admin: open order', order._id); setSelectedOrder(order); }} className="px-2 py-1 text-sm bg-gray-50 border border-gray-200 rounded">View</button>
                           <button onClick={() => handleDelete(order._id)} className="px-2 py-1 text-sm bg-red-50 border border-red-200 rounded text-red-600">Delete</button>
                         </div>
                       </td>
@@ -205,6 +224,9 @@ export default function OrdersPage() {
           </div>
         </div>
       </main>
+      {selectedOrder && (
+        <OrderDetailsModal order={selectedOrder} token={token} onClose={() => setSelectedOrder(null)} />
+      )}
     </div>
   );
 }

@@ -48,7 +48,7 @@ export default function ProfileMenu() {
         aria-expanded={open}
       >
         <span className="w-8 h-8 rounded-full text-white flex items-center justify-center text-sm bg-black shadow">{(user?.email || 'U')[0].toUpperCase()}</span>
-        <span className="hidden sm:block text-sm text-gray-700">{user?.email?.split('@')[0] || 'User'}</span>
+        {/* <span className="hidden sm:block text-sm text-gray-700">{user?.email?.split('@')[0] || 'User'}</span> */}
       </button>
 
       {open && (

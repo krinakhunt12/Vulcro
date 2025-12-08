@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/Order';
-import { verifyTokenFromHeader } from '@/lib/auth';
+import User from '@/models/User';
 import { validateStock, reduceStock, generateOrderNumber } from '@/lib/orderUtils';
 
 /**
@@ -12,10 +12,6 @@ import { validateStock, reduceStock, generateOrderNumber } from '@/lib/orderUtil
  */
 export async function GET(req) {
   try {
-    // allow admin listing or user-specific queries
-    const vt = await verifyTokenFromHeader(req);
-    if (!vt.ok) return NextResponse.json({ success: false, message: 'Authentication required' }, { status: 401 });
-
     await dbConnect();
     const url = new URL(req.url);
     const params = Object.fromEntries(url.searchParams.entries());
@@ -35,17 +31,7 @@ export async function GET(req) {
       match.createdAt = { $gte: start };
     }
     if (status) match.orderStatus = status;
-
-    // If userId is provided, allow users to fetch their own orders or admins to fetch any
-    if (userId) {
-      if (!vt.user.isAdmin && String(vt.user.id) !== String(userId)) {
-        return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 403 });
-      }
-      match.userId = userId;
-    } else {
-      // if no userId provided, only admins can list all orders
-      if (!vt.user.isAdmin) return NextResponse.json({ success: false, message: 'Admin only' }, { status: 403 });
-    }
+    if (userId) match.userId = userId;
 
     const orders = await Order.find(match).sort({ createdAt: -1 }).populate('userId', 'name email').populate('items.productId', 'name price images').lean();
 
@@ -64,11 +50,8 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const vt = await verifyTokenFromHeader(req);
-    if (!vt.ok) return NextResponse.json({ success: false, message: 'Authentication required' }, { status: 401 });
-
     const body = await req.json();
-    const { items, address, paymentMethod = 'COD', paymentStatus = 'Pending', totalAmount, subtotal, shipping, tax } = body;
+    const { items, address, paymentMethod = 'COD', paymentStatus = 'Pending', totalAmount, subtotal, shipping, tax, userId } = body;
 
     // Basic validation
     if (!Array.isArray(items) || items.length === 0) {
@@ -92,7 +75,7 @@ export async function POST(req) {
 
     const order = new Order({
       orderNumber,
-      userId: vt.user.id,
+      userId: userId || null,
       items: items.map((it) => ({ productId: it.productId, quantity: it.quantity, size: it.size, color: it.color, price: it.price, images: it.images || [] })),
       address,
       paymentMethod,
@@ -100,8 +83,8 @@ export async function POST(req) {
       subtotal: Number(subtotal) || 0,
       shippingCharge: Number(shipping) || 0,
       tax: Number(tax) || 0,
-      totalAmount: Number(totalAmount) || Number(total) || 0,
-      totalPrice: Number(totalAmount) || Number(total) || 0,
+      totalAmount: Number(totalAmount) || 0,
+      totalPrice: Number(totalAmount) || 0,
       orderStatus: 'Placed',
     });
 

@@ -8,12 +8,14 @@ import { useAuth } from '@/components/auth/AuthContext';
 import { useToast } from '@/components/ui/ToastProvider';
 import CheckoutSummary from './CheckoutSummary';
 import CheckoutAddress from './CheckoutAddress';
+import { useAuthStore } from '@/store/authStore';
 
 export default function CheckoutClient() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const toast = useToast();
   const { user, loading, isAuthenticated } = useAuth();
+  const { token: authToken } = useAuthStore();
 
   const items = useAppSelector((s) => s.cart.items || []);
 
@@ -24,6 +26,9 @@ export default function CheckoutClient() {
 
   const [address, setAddress] = useState({ name: '', phone: '', line1: '', city: '', state: '', pincode: '' });
   const [placing, setPlacing] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState('COD');
+  const [addressError, setAddressError] = useState('');
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -41,37 +46,39 @@ export default function CheckoutClient() {
     }
   }, []); // only run on mount
 
-  const handlePlaceOrder = async () => {
-    if (!user) {
-      toast?.push({ title: 'Login required', description: 'Please login to place the order', variant: 'destructive' });
-      router.push(`/login?redirect=/checkout`);
-      return;
-    }
+  const handlePlaceOrder = async (paymentMode = 'COD') => {
+    // allow anonymous orders as server no longer requires auth
+    console.log('[Checkout] Placing order with payment mode:', paymentMode);
 
     // validate address
     if (!address.name || !address.phone || !address.line1 || !address.city || !address.pincode) {
-      toast?.push({ title: 'Missing information', description: 'Please complete the shipping address', variant: 'destructive' });
+      const msg = 'Please complete the shipping address';
+      console.warn('[Checkout] Missing address fields', address);
+      setAddressError(msg);
+      toast?.push({ title: 'Missing information', description: msg, variant: 'destructive' });
       return;
     }
 
     // Build payload compatible with server API: items require productId and quantity
     const payload = {
-      items: items.map((it) => ({ productId: it.id || it._id, quantity: Number(it.qty) || 1, price: Number(it.price) || 0, size: it.size, color: it.color })),
+      items: items.map((it) => ({ productId: it.id || it._id, quantity: Number(it.qty) || 1, price: Number(it.price) || 0, size: it.size, color: it.color, title: it.title })),
       address,
-      paymentMethod: 'COD',
+      paymentMethod: paymentMode,
       paymentStatus: 'Pending',
       totalAmount: Number(total) || 0,
       subtotal: Number(subtotal) || 0,
       shipping: Number(shipping) || 0,
       tax: Number(tax) || 0,
+      userId: user?.id || user?._id || null,
     };
 
     try {
       setPlacing(true);
       // include auth token if present
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
+      if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
+
+      console.log('[Checkout] POST /api/orders payload:', payload);
 
       const res = await fetch('/api/orders', {
         method: 'POST',
@@ -86,6 +93,7 @@ export default function CheckoutClient() {
 
       const data = await res.json().catch(() => ({}));
       toast?.push({ title: 'Order placed', description: 'Your order was placed successfully', variant: 'success' });
+      setAddressError('');
       // clear cart and navigate to success page with order id/number
       dispatch(clearCart());
       const orderId = data?.data?._id || data?.data?.id;
@@ -98,6 +106,12 @@ export default function CheckoutClient() {
     } finally {
       setPlacing(false);
     }
+  };
+
+  const onConfirmPlace = () => {
+    // user confirmed payment selection
+    setShowPaymentModal(false);
+    handlePlaceOrder(selectedPayment);
   };
 
   return (
@@ -133,7 +147,7 @@ export default function CheckoutClient() {
 
               <div className="mt-6">
                 <button
-                  onClick={handlePlaceOrder}
+                  onClick={() => setShowPaymentModal(true)}
                   disabled={placing}
                   className="w-full btn btn-primary p-3 rounded-lg shadow-md disabled:opacity-60"
                 >
@@ -146,6 +160,44 @@ export default function CheckoutClient() {
           </aside>
         </div>
       </div>
+          {/* Payment selection modal */}
+          {showPaymentModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+                <h3 className="text-lg font-semibold mb-3">Select payment method</h3>
+                <div className="space-y-3">
+                  <label className={`flex items-center p-3 border rounded-lg cursor-pointer ${selectedPayment === 'COD' ? 'border-primary' : 'border-gray-200'}`}>
+                    <input className="mr-3" type="radio" name="payment" value="COD" checked={selectedPayment === 'COD'} onChange={() => setSelectedPayment('COD')} />
+                    <div>
+                      <div className="font-medium">Cash on Delivery (COD)</div>
+                      <div className="text-sm text-gray-500">Pay when you receive the order</div>
+                    </div>
+                  </label>
+
+                  <label className={`flex items-center p-3 border rounded-lg cursor-pointer ${selectedPayment === 'UPI' ? 'border-primary' : 'border-gray-200'}`}>
+                    <input className="mr-3" type="radio" name="payment" value="UPI" checked={selectedPayment === 'UPI'} onChange={() => setSelectedPayment('UPI')} />
+                    <div>
+                      <div className="font-medium">UPI / Netbanking</div>
+                      <div className="text-sm text-gray-500">Fast and secure online payment</div>
+                    </div>
+                  </label>
+
+                  <label className={`flex items-center p-3 border rounded-lg cursor-pointer ${selectedPayment === 'Card' ? 'border-primary' : 'border-gray-200'}`}>
+                    <input className="mr-3" type="radio" name="payment" value="Card" checked={selectedPayment === 'Card'} onChange={() => setSelectedPayment('Card')} />
+                    <div>
+                      <div className="font-medium">Card (Credit / Debit)</div>
+                      <div className="text-sm text-gray-500">Pay with your card</div>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="mt-6 flex justify-end gap-3">
+                  <button className="btn btn-ghost px-4 py-2 rounded" onClick={() => setShowPaymentModal(false)}>Cancel</button>
+                  <button className="btn btn-primary px-4 py-2 rounded" onClick={onConfirmPlace}>Confirm & Pay</button>
+                </div>
+              </div>
+            </div>
+          )}
     </div>
   );
 }

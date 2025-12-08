@@ -33,7 +33,27 @@ export async function POST(req) {
     const admin = new Admin({ name, email: email.toLowerCase().trim(), password: hashed });
     await admin.save();
 
-    return NextResponse.json({ success: true, message: 'Admin created' }, { status: 201 });
+    // create token and return admin info
+    const { generateAdminToken } = await import('@/lib/adminAuth');
+    const token = generateAdminToken(admin);
+
+    const payload = {
+      success: true,
+      message: 'Admin created',
+      token,
+      admin: { id: admin._id, email: admin.email, name: admin.name, role: 'admin' },
+    };
+
+    const res = NextResponse.json(payload, { status: 201 });
+    res.cookies.set('token', token, {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return res;
   } catch (err) {
     console.error('Admin signup error', err);
     return NextResponse.json({ success: false, message: 'Unable to create admin', error: err.message }, { status: 500 });

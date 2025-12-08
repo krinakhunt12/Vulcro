@@ -26,12 +26,33 @@ export async function POST(req) {
     if (!admin) return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
 
     const ok = await bcrypt.compare(password, admin.password);
-    if (!ok) return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
+    // If stored password is plain (legacy), allow login and upgrade to bcrypt hash
+    if (!ok) {
+      if (admin.password === password) {
+        try {
+          const newHash = await bcrypt.hash(password, 10);
+          admin.password = newHash;
+          await admin.save();
+          console.log('Upgraded plain admin password to bcrypt for', admin.email);
+        } catch (e) {
+          console.warn('Failed to upgrade admin password hash', e);
+        }
+      } else {
+        return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
+      }
+    }
 
     const token = generateAdminToken(admin);
 
-    // Use NextResponse to set the cookie reliably
-    const res = NextResponse.json({ success: true, message: 'Login successful' }, { status: 200 });
+    // Use NextResponse to set the cookie reliably and return admin info + token in body
+    const payload = {
+      success: true,
+      message: 'Login successful',
+      token,
+      admin: { id: admin._id, email: admin.email, name: admin.name, role: 'admin' },
+    };
+
+    const res = NextResponse.json(payload, { status: 200 });
     res.cookies.set('token', token, {
       httpOnly: true,
       path: '/',
