@@ -16,7 +16,7 @@ export default function ProductCard({ product, tag, priority = false }) {
   const badge = tag || product?.tag;
 
   return (
-    <a href={`/product/${id}`} className="card p-4 block">
+    <a href={`/product/${id}`} className="p-4 block border border-gray-200 rounded-lg">
       <div className="relative product-image h-64 w-full overflow-hidden rounded-lg bg-[--surface]">
         {badge ? (
           <span className="absolute top-3 left-3 bg-[--primary] text-white text-xs px-3 py-1 rounded-full z-10">
