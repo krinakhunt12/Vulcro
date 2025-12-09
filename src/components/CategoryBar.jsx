@@ -24,7 +24,7 @@ export default function CategoryBar({ categories = [], active = 'All', variant =
           })
         )}
       </div>
-      <div className="border-t border-gray-100 mt-3" />
+      {/* <div className="border-t border-gray-100 mt-3" /> */}
     </div>
   );
 }

@@ -561,7 +561,7 @@ export default function AboutPage() {
 
               <div className="relative h-[400px] rounded-xl overflow-hidden border border-gray-200">
                 <img
-                  src="./shop.png"
+                  src="./s"
                   alt="Interior of VULCRO atelier in Surat"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 
                            transition-all duration-700"

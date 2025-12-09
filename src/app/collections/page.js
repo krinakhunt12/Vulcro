@@ -1,10 +1,9 @@
+"use client";
+
 import Link from 'next/link';
 import CollectionBanner from '@/components/CollectionBanner';
 import Footer from '@/components/SiteFooter';
-export const metadata = {
-  title: 'Collections - VULCRO',
-  description: 'Explore premium kurti collections from Surat featuring handcrafted embroidery, modern silhouettes, and ethical production.',
-};
+import { useRouter } from 'next/navigation';
 
 const collections = [
   {
@@ -122,36 +121,60 @@ const HeartIcon = () => (
   </svg>
 );
 
+const SparkleIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+  </svg>
+);
+
 export default function CollectionsPage() {
+  const router = useRouter();
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative py-16 px-4 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+      {/* Hero Section - Fixed navbar spacing */}
+      <section className="relative pt-32 pb-20 px-4 bg-gradient-to-br from-gray-50 via-white to-gray-50">
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full blur-3xl opacity-30"></div>
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-full blur-3xl opacity-30"></div>
+        </div>
+
+        <div className="container mx-auto relative z-10">
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-full shadow-md border border-gray-100">
+              <SparkleIcon />
+              <span className="text-sm font-semibold text-gray-700">Premium Handcrafted Collections</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 bg-clip-text text-transparent">
               Curated Collections
             </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            
+            <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed">
               Discover handcrafted kurtis from Surat — where traditional craftsmanship meets contemporary design. Each piece tells a story of ethical production and mindful detailing.
             </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link href="/shop" className="btn btn-primary px-8 py-3 rounded-full text-lg font-medium group inline-flex items-center">
+            
+            <div className="flex flex-wrap justify-center gap-4">
+              <button onClick={() => router.push('/shop')} className="inline-flex items-center px-8 py-4 bg-black text-white rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:bg-gray-900 transition-all transform hover:-translate-y-0.5">
                 Shop All Collections
                 <ChevronRightIcon />
-              </Link>
-              <Link href="/about" className="btn btn-outline px-8 py-3 rounded-full text-lg font-medium">
+              </button>
+              <button onClick={() => router.push('/about')} className="inline-flex items-center px-8 py-4 border-2 border-black text-black rounded-full text-lg font-bold hover:bg-black hover:text-white transition-all transform hover:-translate-y-0.5">
                 Our Craftsmanship
-              </Link>
+              </button>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto py-8">
+          {/* Stats - Enhanced Design */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
-                <div className="text-sm text-gray-500 uppercase tracking-wider">{stat.label}</div>
+              <div key={index} className="text-center bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:scale-105 transition-all">
+                <div className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                  {stat.number}
+                </div>
+                <div className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
@@ -159,20 +182,23 @@ export default function CollectionsPage() {
       </section>
 
       {/* Collections Grid */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-16 h-1 bg-black"></div>
-                <h2 className="text-2xl font-semibold uppercase tracking-wider text-gray-500">Our Collections</h2>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-20 h-1.5 bg-gradient-to-r from-black to-gray-400 rounded-full"></div>
+                <h2 className="text-xl font-bold uppercase tracking-wider text-gray-500">Our Collections</h2>
               </div>
-              <h3 className="text-4xl font-bold">Explore By Category</h3>
+              <h3 className="text-4xl md:text-5xl font-bold text-gray-900">Explore By Category</h3>
+              <p className="text-gray-600 text-lg max-w-2xl">
+                Each collection is thoughtfully curated to bring you the finest in ethnic wear
+              </p>
             </div>
             
-            <div className="hidden md:flex items-center gap-4">
-              <label className="text-sm font-medium text-gray-600">Sort by:</label>
-              <select className="text-sm p-3 rounded-lg border border-gray-300 bg-white min-w-[180px]">
+            <div className="flex items-center gap-4 bg-white border-2 border-gray-200 rounded-xl px-4 py-3 shadow-sm">
+              <label className="text-sm font-bold text-gray-700">Sort by:</label>
+              <select className="text-sm font-medium bg-transparent focus:outline-none cursor-pointer">
                 <option>Featured Collections</option>
                 <option>Newest First</option>
                 <option>Most Popular</option>
@@ -183,40 +209,50 @@ export default function CollectionsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {collections.map((collection) => (
+            {collections.map((collection, index) => (
               <Link 
                 key={collection.slug} 
                 href={`/collections/${collection.slug}`}
-                className="group relative overflow-hidden rounded-2xl bg-gray-50 hover:shadow-2xl transition-all duration-500"
+                className="group relative overflow-hidden rounded-3xl bg-white border-2 border-gray-100 hover:border-gray-300 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
               >
-                <div className="aspect-[4/3] overflow-hidden">
+                <div className="aspect-[4/3] overflow-hidden relative">
                   <img 
                     src={collection.image} 
                     alt={collection.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  {/* Gradient Overlay on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Badge */}
+                  <div className="absolute top-4 right-4 bg-white px-3 py-1.5 rounded-full shadow-lg">
+                    <span className="text-xs font-bold text-gray-900">{collection.count}</span>
+                  </div>
+                  
+                  {/* Index Number */}
+                  <div className="absolute top-4 left-4 w-12 h-12 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-lg">{String(index + 1).padStart(2, '0')}</span>
+                  </div>
                 </div>
                 
                 <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xl font-bold group-hover:text-gray-700 transition-colors">
-                      {collection.title}
-                    </h4>
-                    <span className="text-sm text-gray-500">{collection.count}</span>
-                  </div>
+                  <h4 className="text-2xl font-bold mb-3 group-hover:text-gray-700 transition-colors">
+                    {collection.title}
+                  </h4>
                   
-                  <p className="text-gray-600 mb-4 line-clamp-2">{collection.subtitle}</p>
+                  <p className="text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+                    {collection.subtitle}
+                  </p>
                   
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2 mb-5">
                     {collection.tags.map((tag, idx) => (
-                      <span key={idx} className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                      <span key={idx} className="px-3 py-1.5 text-xs font-bold bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors">
                         {tag}
                       </span>
                     ))}
                   </div>
                   
-                  <div className="flex items-center text-sm font-medium text-gray-700 group-hover:text-black transition-colors">
+                  <div className="flex items-center text-sm font-bold text-gray-900 group-hover:gap-2 transition-all">
                     Explore Collection
                     <ChevronRightIcon />
                   </div>
@@ -225,26 +261,33 @@ export default function CollectionsPage() {
             ))}
           </div>
 
-          {/* Quick Filter Bar */}
-          <div className="mb-12 p-6 bg-gray-50 rounded-2xl">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          {/* Quick Filter Bar - Enhanced */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 rounded-3xl shadow-2xl">
+            {/* Decorative Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}></div>
+            </div>
+
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h4 className="font-bold text-lg mb-2">Not sure where to start?</h4>
-                <p className="text-gray-600">Browse by popular categories:</p>
+                <h4 className="font-bold text-2xl mb-2">Not sure where to start?</h4>
+                <p className="text-gray-300 text-lg">Browse by popular categories</p>
               </div>
               <div className="flex flex-wrap gap-3">
-                <Link href="/collections/premium-embroidered" className="px-6 py-3 bg-white border border-gray-300 rounded-full hover:border-black transition-colors">
-                  Embroidered Luxury
-                </Link>
-                <Link href="/collections/casual-daily" className="px-6 py-3 bg-white border border-gray-300 rounded-full hover:border-black transition-colors">
-                  Casual Wear
-                </Link>
-                <Link href="/collections/occasion-wear" className="px-6 py-3 bg-white border border-gray-300 rounded-full hover:border-black transition-colors">
-                  Festival Ready
-                </Link>
-                <Link href="/collections/new-arrivals" className="px-6 py-3 bg-white border border-gray-300 rounded-full hover:border-black transition-colors">
-                  New Arrivals
-                </Link>
+                <button onClick={() => router.push('/collections/premium-embroidered')} className="px-6 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-100 transition-all transform hover:-translate-y-0.5 shadow-lg">
+                  ✨ Embroidered Luxury
+                </button>
+                <button onClick={() => router.push('/collections/casual-daily')} className="px-6 py-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 font-bold rounded-full hover:bg-white/20 transition-all">
+                  👕 Casual Wear
+                </button>
+                <button onClick={() => router.push('/collections/occasion-wear')} className="px-6 py-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 font-bold rounded-full hover:bg-white/20 transition-all">
+                  🎉 Festival Ready
+                </button>
+                <button onClick={() => router.push('/collections/new-arrivals')} className="px-6 py-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 font-bold rounded-full hover:bg-white/20 transition-all">
+                  🆕 New Arrivals
+                </button>
               </div>
             </div>
           </div>
@@ -252,67 +295,72 @@ export default function CollectionsPage() {
       </section>
 
       {/* Featured Picks */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-3 mb-4">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 mb-6 px-5 py-2.5 bg-white rounded-full shadow-lg border border-gray-100">
               <RibbonIcon />
-              <span className="text-sm font-medium uppercase tracking-wider text-gray-500">Editor's Selection</span>
+              <span className="text-sm font-bold uppercase tracking-wider text-gray-700">Editor's Selection</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Featured Picks</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Our team's favorite selections this season — pieces that define quality and style.
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Featured Picks
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-xl leading-relaxed">
+              Our team's favorite selections this season — pieces that define quality and style
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {featuredProducts.map((product) => (
               <div key={product.id} className="group">
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
+                <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 h-full border-2 border-gray-100 hover:border-gray-300 transform hover:-translate-y-2">
                   <div className="relative overflow-hidden">
                     <img 
                       src={product.image} 
                       alt={product.name}
-                      className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
                     />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
                     <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 text-xs font-bold bg-black text-white rounded-full">
+                      <span className="px-4 py-2 text-xs font-bold bg-gradient-to-r from-black to-gray-800 text-white rounded-full shadow-lg">
                         {product.badge}
                       </span>
                     </div>
                     <div className="absolute top-4 right-4">
-                      <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
+                      <button className="p-3 bg-white/95 backdrop-blur-sm rounded-full hover:bg-white hover:scale-110 transition-all shadow-lg">
                         <HeartIcon />
                       </button>
                     </div>
                   </div>
                   
                   <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-xl font-bold">{product.name}</h4>
-                      <div className="flex items-center gap-1">
+                    <div className="flex items-start justify-between mb-4">
+                      <h4 className="text-xl font-bold leading-tight flex-1">{product.name}</h4>
+                      <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full ml-2">
                         <StarIcon />
-                        <span className="font-medium">{product.rating}</span>
+                        <span className="font-bold text-sm">{product.rating}</span>
                       </div>
                     </div>
                     
-                    <p className="text-gray-600 mb-4 line-clamp-2">{product.description}</p>
+                    <p className="text-gray-600 mb-5 line-clamp-2 leading-relaxed">{product.description}</p>
                     
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-6">
                       <div>
-                        <span className="text-2xl font-bold">{product.price}</span>
-                        <span className="text-gray-400 line-through ml-2">{product.originalPrice}</span>
+                        <span className="text-3xl font-bold text-gray-900">{product.price}</span>
+                        <span className="text-gray-400 line-through ml-2 text-sm">{product.originalPrice}</span>
                       </div>
-                      <span className="px-3 py-1 text-sm font-medium bg-green-100 text-green-800 rounded-full">
+                      <span className="px-3 py-1.5 text-sm font-bold bg-green-100 text-green-800 rounded-full">
                         Save 22%
                       </span>
                     </div>
                     
                     <div className="flex gap-3">
-                      <button className="flex-1 btn btn-primary py-3 rounded-lg font-medium">
+                      <button className="flex-1 bg-black text-white py-3.5 rounded-xl font-bold hover:bg-gray-900 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                         Add to Cart
                       </button>
-                      <button className="px-4 py-3 border border-gray-300 rounded-lg hover:border-black transition-colors">
+                      <button className="px-5 py-3.5 border-2 border-gray-300 rounded-xl hover:border-black hover:bg-gray-50 transition-all font-semibold">
                         Quick View
                       </button>
                     </div>
@@ -325,51 +373,79 @@ export default function CollectionsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-black text-white">
-        <div className="container mx-auto">
+      <section className="relative py-24 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
+        {/* Animated Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}></div>
+        </div>
+
+        {/* Decorative Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
               Crafted with Care,<br />Worn with Pride
             </h2>
-            <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+            <p className="text-gray-300 text-xl mb-10 leading-relaxed">
               Each VULCRO piece is thoughtfully designed and ethically produced in Surat, supporting local artisans while bringing you premium quality kurtis.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/about" className="px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-gray-100 transition-colors">
+              <button
+                onClick={() => router.push('/about')}
+                className="px-10 py-5 bg-white text-[#111827] font-bold rounded-full hover:bg-gray-100 transition-all shadow-2xl hover:shadow-xl transform hover:-translate-y-1 text-lg z-20 inline-block text-center"
+              >
                 Learn About Our Craft
-              </Link>
-              <Link href="/shop" className="px-8 py-4 border-2 border-white font-medium rounded-full hover:bg-white/10 transition-colors">
+              </button>
+              <button
+                onClick={() => router.push('/shop')}
+                className="px-10 py-5 border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition-all backdrop-blur-sm text-lg z-20 inline-block text-center"
+              >
                 Browse All Collections
-              </Link>
+              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Newsletter */}
-      <section className="py-16 px-4 bg-white">
-        <div className="container mx-auto max-w-2xl">
-          <div className="text-center">
-            <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
-            <p className="text-gray-600 mb-8">
-              Be the first to know about new collections, exclusive offers, and styling tips.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4">
-              <input 
-                type="email" 
-                placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:border-black transition-colors"
-              />
-              <button type="submit" className="px-8 py-4 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-colors">
-                Subscribe
-              </button>
-            </form>
-            <p className="text-sm text-gray-500 mt-4">
-              By subscribing, you agree to our Privacy Policy. Unsubscribe anytime.
-            </p>
+      <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto max-w-3xl">
+          <div className="bg-white rounded-3xl shadow-2xl border-2 border-gray-100 p-10 md:p-12">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-900 to-gray-700 rounded-full mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              
+              <h3 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Stay Updated</h3>
+              <p className="text-gray-600 text-lg mb-8 max-w-xl mx-auto">
+                Be the first to know about new collections, exclusive offers, and styling tips
+              </p>
+              
+              <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email address"
+                  className="flex-1 px-6 py-4 border-2 border-gray-200 rounded-full focus:outline-none focus:border-black transition-all text-lg"
+                  required
+                />
+                <button type="submit" className="px-10 py-4 bg-black text-white font-bold rounded-full hover:bg-gray-900 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 whitespace-nowrap">
+                  Subscribe Now
+                </button>
+              </form>
+              
+              <p className="text-sm text-gray-500 mt-6">
+                By subscribing, you agree to our Privacy Policy. Unsubscribe anytime.
+              </p>
+            </div>
           </div>
         </div>
       </section>
+      
       <Footer/>
     </main>
   );

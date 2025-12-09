@@ -8,17 +8,32 @@ export default async function CollectionPage({ params }) {
     'premium-embroidered': {
       title: 'Premium Embroidered Kurtis',
       subtitle: 'Close-up embroidery, mirror work and threadwork — rich and detailed.',
-      image: 'https://images.unsplash.com/photo-1516822003754-cca485356ecb?auto=format&fit=crop&w=1400&q=80',
+      image: '/hero1.png',
     },
     'casual-daily': {
       title: 'Casual Kurti Collection',
       subtitle: 'Comfort first — pastel tones and relaxed silhouettes for everyday wear.',
-      image: 'https://images.unsplash.com/photo-1562158070-17c4f1b5d4c5?auto=format&fit=crop&w=1400&q=80',
+      image: '/hero2.png',
     },
     'new-arrivals': {
       title: 'New Arrivals',
       subtitle: 'Fresh designs with flowing dupattas and modern Indian silhouettes.',
-      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1400&q=80',
+      image: '/hero3.png',
+    },
+    'occasion-wear': {
+      title: 'Festival & Occasion Wear',
+      subtitle: 'Statement pieces for celebrations with heavy embroidery and rich fabrics.',
+      image: '/hero4.png',
+    },
+    'linen-collection': {
+      title: 'Linen Essentials',
+      subtitle: 'Breathable linen kurtis with minimalist detailing and natural textures.',
+      image: '/hero5.png',
+    },
+    'anarkali-silhouettes': {
+      title: 'Anarkali & Flared',
+      subtitle: 'Dramatic flares and regal anarkali cuts for traditional elegance.',
+      image: '/hero6.png',
     },
   };
 
