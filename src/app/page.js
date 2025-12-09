@@ -113,9 +113,9 @@ export default function Home() {
             <p className="text-lg text-gray-800 mb-8">
               Celebrate the season in style. Limited time offer on our premium festive collection.
             </p>
-            <Link href="/collections/festive" className="inline-block px-10 py-4 bg-gray-100 text-gray-800 font-semibold rounded-md hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+            <button onClick={() => router.push('/collections/festive')} className="inline-block px-10 py-4 bg-gray-100 text-gray-800 font-semibold rounded-md hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
               Shop Festive Collection
-            </Link>
+            </button>
           </div>
         </div>
       </section>
