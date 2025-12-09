@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -8,6 +10,7 @@ import FeaturedCollections from '@/components/FeaturedCollections';
 import BrandStory from '@/components/BrandStory';
 import Testimonials from '@/components/Testimonials';
 import SiteFooter from '@/components/SiteFooter';
+import { useRouter } from 'next/navigation';
 /**
  * Lazy-loaded components using next/dynamic
  * These components are loaded only when needed, reducing initial bundle size
@@ -83,7 +86,7 @@ export default function Home() {
   const bestSellers = products.slice(0, 4);
   const newArrivals = products.slice(4, 8);
   const year = new Date().getFullYear();
-
+ const router = useRouter();
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
