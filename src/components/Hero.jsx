@@ -25,7 +25,7 @@ export default function Hero() {
         {/* Main Background Image with Overlay */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1920&q=80"
+            src="./hero.png"
             alt="Traditional fabric background"
             className="w-full h-full object-cover grayscale blur-[0.6px] opacity-85"
           />
@@ -36,12 +36,12 @@ export default function Hero() {
 
         {/* Decorative Floating Images */}
         <img
-          src="https://images.unsplash.com/photo-1523380744952-b7e00e6e2ffa?auto=format&fit=crop&w=800&q=60"
+          src="./hero5.png"
           alt="Fabric texture"
           className="absolute top-20 left-10 w-64 h-64 object-cover rounded-3xl opacity-18 rotate-12 fade-up"
         />
         <img
-          src="https://images.unsplash.com/photo-1503342394128-c104d54dba01?auto=format&fit=crop&w-600&q=60"
+          src="./hero2.png"
           alt="Embroidery detail"
           className="absolute bottom-32 right-20 w-48 h-48 object-cover rounded-2xl opacity-22 -rotate-6 fade-up"
         />
@@ -119,7 +119,7 @@ export default function Hero() {
             <div className="relative z-20">
               <div className="relative overflow-hidden rounded-3xl shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80"
+                  src="./hero2.png"
                   alt="Model wearing traditional kurti"
                   className="w-full h-[500px] object-cover transition-transform duration-700 hover:scale-105 fade-up"
                 />
@@ -136,7 +136,7 @@ export default function Hero() {
                 <div className="relative group">
                   <div className="absolute -inset-2 bg-white/5 rounded-2xl blur opacity-50 group-hover:opacity-80 transition-opacity"></div>
                   <img
-                    src="https://images.unsplash.com/photo-1520975698512-4c5f2b8f9a34?auto=format&fit=crop&w=400&q=80"
+                    src="./hero4.png"
                     alt="Dupatta detail"
                     className="relative w-40 h-40 object-cover rounded-2xl shadow-xl transform rotate-6 group-hover:rotate-0 transition-transform duration-500 fade-up"
                   />
@@ -148,7 +148,7 @@ export default function Hero() {
                 <div className="relative group">
                   <div className="absolute -inset-2 bg-white/5 rounded-2xl blur opacity-50 group-hover:opacity-80 transition-opacity"></div>
                   <img
-                    src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?auto=format&fit=crop&w=400&q=80"
+                    src="./hero3.png"
                     alt="Fabric texture closeup"
                     className="relative w-32 h-32 object-cover rounded-2xl shadow-xl transform -rotate-12 group-hover:rotate-0 transition-transform duration-500 fade-up"
                   />

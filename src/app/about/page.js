@@ -85,7 +85,7 @@ export default function AboutPage() {
             <div className="relative w-full max-w-xl">
               <div className="aspect-square overflow-hidden rounded-lg shadow-2xl">
                 <img
-                  src="/placeholders/artisan-1600x800.jpg"
+                  src="./factory.png"
                   alt="Artisan hand-stitching a traditional kurti in VULCRO atelier"
                   width={1600}
                   height={800}
@@ -93,8 +93,7 @@ export default function AboutPage() {
                            transition-all duration-700 hover:scale-105"
                 />
               </div>
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-gray-300 
-                            rounded-lg bg-white p-4 shadow-lg animate-pulse-slow">
+              <div className="absolute -bottom-4 -right-4 w-32 h-36 border border-gray-300 rounded-lg bg-white p-4 shadow-lg animate-pulse-slow">
                 <div className="text-xs uppercase tracking-widest text-gray-500 mb-2">Since 2016</div>
                 <div className="text-2xl font-bold">8+ Years</div>
                 <div className="text-sm text-gray-600">of Craft Excellence</div>
@@ -274,7 +273,7 @@ export default function AboutPage() {
         </section>
 
         {/* MEET THE MAKERS */}
-        <section id="makers" role="region" aria-labelledby="makers-heading" className="animate-fadeInUp">
+        {/* <section id="makers" role="region" aria-labelledby="makers-heading" className="animate-fadeInUp">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <div className="inline-block mb-4">
@@ -353,7 +352,7 @@ export default function AboutPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* TIMELINE */}
         <section id="timeline" role="region" aria-labelledby="timeline-heading" 
@@ -562,7 +561,7 @@ export default function AboutPage() {
 
               <div className="relative h-[400px] rounded-xl overflow-hidden border border-gray-200">
                 <img
-                  src="/placeholders/atelier-interior.jpg"
+                  src="./shop.png"
                   alt="Interior of VULCRO atelier in Surat"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 
                            transition-all duration-700"
