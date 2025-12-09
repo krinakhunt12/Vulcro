@@ -26,7 +26,7 @@ const OrderSchema = new mongoose.Schema(
     address: { type: AddressSchema, required: true },
     paymentMethod: { type: String, enum: ['COD', 'Online'], default: 'COD' },
     paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Failed'], default: 'Pending' },
-    orderStatus: { type: String, enum: ['Placed', 'Packed', 'Shipped', 'Delivered'], default: 'Placed' },
+    orderStatus: { type: String, enum: ['Placed', 'Packed', 'Shipped', 'Delivered', 'Cancelled'], default: 'Placed' },
     trackingId: { type: String, default: null },
     subtotal: { type: Number, required: true, min: 0 },
     shippingCharge: { type: Number, required: true, min: 0 },

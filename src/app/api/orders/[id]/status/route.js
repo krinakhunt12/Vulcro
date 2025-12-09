@@ -25,36 +25,30 @@ export async function PATCH(req, { params }) {
     const attempts = [];
     let order = null;
 
-    // diagnostic: raw param info
-    try {
-      console.warn('[OrderStatus] raw params.id:', JSON.stringify(id), 'type:', typeof id, 'len:', id?.length);
-    } catch (e) {
-      console.warn('[OrderStatus] raw params.id inspect failed', e.message);
+    // normalize incoming id and try to extract a clean 24-hex id if present
+    let lookupId = String(id ?? '').trim();
+    attempts.push({ method: 'raw_param', value: lookupId, type: typeof lookupId, len: lookupId.length });
+
+    // If the param contains a 24-hex substring, extract it (handles extra chars or wrappers)
+    const hex = lookupId.match(/([a-fA-F0-9]{24})/);
+    if (hex && hex[1]) {
+      attempts.push({ method: 'extract_24hex', value: hex[1] });
+      lookupId = hex[1];
     }
 
-    // If id isn't a valid ObjectId, try to extract a 24-hex substring (handles accidental extra chars)
-    let lookupId = id;
-    if (!mongoose.Types.ObjectId.isValid(lookupId)) {
-      const m = String(lookupId).match(/([a-fA-F0-9]{24})/);
-      if (m && m[1]) {
-        attempts.push({ method: 'extract_24hex', value: m[1] });
-        lookupId = m[1];
-        console.warn('[OrderStatus] extracted 24-hex id from param:', lookupId);
-      }
-    }
-
-    // 1) try by ObjectId
+    // 1) Try direct ObjectId lookup (preferred)
     try {
-      attempts.push({ method: 'isValidObjectId', value: mongoose.Types.ObjectId.isValid(lookupId) });
-      if (mongoose.Types.ObjectId.isValid(lookupId)) {
-        attempts.push({ method: 'findByIdAndUpdate', value: lookupId });
-        order = await Order.findByIdAndUpdate(lookupId, { $set: { orderStatus } }, { new: true }).populate('items.productId', 'name price images').populate('userId', 'name email').lean();
+      const isValid = mongoose.Types.ObjectId.isValid(lookupId);
+      attempts.push({ method: 'isValidObjectId', value: isValid });
+      if (isValid) {
+        attempts.push({ method: 'findByIdAndUpdate_attempt', value: lookupId });
+        order = await Order.findByIdAndUpdate(mongoose.Types.ObjectId(lookupId), { $set: { orderStatus } }, { new: true }).populate('items.productId', 'name price images').populate('userId', 'name email').lean();
       }
     } catch (e) {
       attempts.push({ method: 'findByIdAndUpdate_error', error: e.message });
     }
 
-    // 2) try update by string _id
+    // 2) try update by string _id (fallback)
     if (!order) {
       try {
         attempts.push({ method: 'findOne_update__id_string', value: lookupId });
@@ -64,17 +58,29 @@ export async function PATCH(req, { params }) {
       }
     }
 
-    // 3) try update by orderNumber
+    // 3) try update by exact orderNumber
     if (!order) {
       try {
-        attempts.push({ method: 'findOne_update_orderNumber', value: id });
-        order = await Order.findOneAndUpdate({ orderNumber: id }, { $set: { orderStatus } }, { new: true }).populate('items.productId', 'name price images').populate('userId', 'name email').lean();
+        attempts.push({ method: 'findOne_update_orderNumber', value: lookupId });
+        order = await Order.findOneAndUpdate({ orderNumber: lookupId }, { $set: { orderStatus } }, { new: true }).populate('items.productId', 'name price images').populate('userId', 'name email').lean();
       } catch (e) {
         attempts.push({ method: 'findOne_update_orderNumber_error', error: e.message });
       }
     }
 
-    // 4) try update by item _id
+    // 4) try partial / case-insensitive match on orderNumber
+    if (!order) {
+      try {
+        attempts.push({ method: 'findOne_update_orderNumber_partial', value: lookupId });
+        const escaped = String(lookupId).replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&');
+        const re = new RegExp(escaped, 'i');
+        order = await Order.findOneAndUpdate({ orderNumber: re }, { $set: { orderStatus } }, { new: true }).populate('items.productId', 'name price images').populate('userId', 'name email').lean();
+      } catch (e) {
+        attempts.push({ method: 'findOne_update_orderNumber_partial_error', error: e.message });
+      }
+    }
+
+    // 5) try update by nested item _id
     if (!order) {
       try {
         attempts.push({ method: 'findOne_update_by_itemId', value: lookupId });
